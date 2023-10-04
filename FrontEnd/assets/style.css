@@ -52,6 +52,7 @@ body {
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
+	background-color: #FFFEF8;
 }
 header {
 	display: flex;
@@ -60,6 +61,11 @@ header {
 }
 section {
 	margin: 50px 0
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
 }
 
 h1{
@@ -88,10 +94,10 @@ nav ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
-
+	column-gap: 2.75em;
 }
 nav li {
-	padding: 0 10px;
+	padding: 0;
 	font-size: 1.2em;
 }
 
@@ -121,9 +127,50 @@ li:hover {
 #introduction p {
 	margin-bottom: 0.5em;
 }
-#portfolio h2 {
+#portfolio h2{
 	text-align: center;
 	margin-bottom: 1em;
+}
+
+.navActive {
+	font-weight: 700;
+}
+
+.filter {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	margin-bottom: 3.19em;
+	gap: 0.63em;
+}
+.filter__btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #1D6154;
+	border: solid 0.06em #1D6154;
+	border-radius: 3.75em;
+	font-family: "Syne";
+	font-size: 1em;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+	height: 2.31em;
+	min-width: 6.25em;
+}
+.filter__btn--apartment {
+	width: 9.81em;
+}
+.filter__btn--hotels {
+	width: 12.37em;
+}
+.filter__btn:hover {
+	cursor: pointer;
+}
+.filter__btn.active {
+	background-color: #1D6154;
+	color: #FFF;
 }
 .gallery {
 	width: 100%;
@@ -178,6 +225,11 @@ input[type="submit"]{
 	width: 180px;
 	text-align: center;
 	border-radius: 60px ;
+}
+
+#send:hover {
+	background-color: #0E2F28;
+	cursor: pointer;
 }
 
 footer nav ul {
