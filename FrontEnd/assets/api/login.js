@@ -1,10 +1,14 @@
 const idSend = document.getElementById("connection")
+
+let identifier = window.localStorage.getItem("identify")
+let connectionError = false
 class userInfo {
     constructor(name,regExp,displayCheck) {
         this.name = name
         this.regExp = regExp
         this.displayCheck = displayCheck
-        this.tag = document.getElementById(this.name)     
+        this.tag = document.getElementById(this.name)
+        this.regExpCheck = false     
     }
     initializeTag() {
         if (!this.displayCheck) {
@@ -23,44 +27,60 @@ idSend.addEventListener("change", () => {
     for (let i = 0; i < userInfoTable.length; i++) {
         const tagValue = userInfoTable[i].tag.value
  
-        if (tagValue !== "") {             
+        if (tagValue !== "") {  
+            if (connectionError) {
+                const tagSelectemailPasswordRemove = document.getElementById('emailPassword').remove()
+                tagSelectemailPasswordRemove
+                connectionError = false
+            } 
             if (!userInfoTable[i].regExp.test(tagValue)){
                 userInfoTable[i].initializeTag()
+                userInfoTable[i].regExpCheck = false
             }
             else if (userInfoTable[i].regExp.test(tagValue)){ 
-                if (userInfoTable[i].displayCheck) {
-                    const tagSelectRemove = document.getElementById(`${userInfoTable[i].name}-error`).remove()
-
+                if (userInfoTable[i].displayCheck) {                   
+                    const tagSelectRemove = document.getElementById(`${userInfoTable[i].name}-error`).remove()             
                     userInfoTable[i].displayCheck = false
-                    return tagSelectRemove
-                }                      
-            } 
-        }  
+                    tagSelectRemove
+                    
+                }   
+                userInfoTable[i].regExpCheck = true 
+            }
+        }    
     }
 })
 
-idSend.addEventListener("submit", async (event) => {
-    event.preventDefault()
-        
-    const id = {
-        email: event.target.querySelector("[name=email]").value,
-        password: event.target.querySelector("[name=password]").value,
-    }
-        
-    const payload = JSON.stringify(id)
-
-    fetch("http://localhost:5678/api/users/login", {
+async function fetchLogin(payload) {
+    const response = await fetch("http://localhost:5678/api/users/login", {
         method: "POST",
         headers: { "content-Type": "application/json"},
         body: payload
-    }).then(response => {
-        if (response.ok) {
-            window.location.href = "./index.html"
-        } else {
-            const displayError = document.getElementById("passwords")
-            displayError.insertAdjacentHTML("afterend",`<p class="error">E-mail ou Mot de passe incorrect</p>`)
-        }
     })
-    
+    if (response.ok) {
+        return response.json()
+    } else {
+        const displayError = document.getElementById("passwords")
+        displayError.insertAdjacentHTML("afterend",`<p class="error" id="emailPassword">E-mail ou Mot de passe incorrect</p>`)
+        connectionError = true
+        throw new Error('La requête a échoué')
+    }
+}
+
+idSend.addEventListener("submit", async (event) => {
+    event.preventDefault()
+    if (userInfoTable[0].regExpCheck && userInfoTable[1].regExpCheck) {
+            
+        const id = {
+           email: userInfoTable[0].tag.value,
+           password: userInfoTable[1].tag.value
+        }           
+        const payload = JSON.stringify(id)
+ 
+        fetchLogin(payload).then(data => {
+            window.localStorage.setItem("identify", JSON.stringify(data))
+            identifier = JSON.parse(identifier)
+            window.location.href = "./index.html"  
+        })
+    }   
 })
 

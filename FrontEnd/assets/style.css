@@ -127,6 +127,12 @@ li:hover {
 #introduction p {
 	margin-bottom: 0.5em;
 }
+
+#portfolio {
+    display: flex;
+    flex-direction: column;
+}
+
 #portfolio h2{
 	text-align: center;
 	margin-bottom: 1em;
@@ -141,7 +147,7 @@ li:hover {
 	justify-content: center;
 	align-items: center;
 	text-align: center;
-	margin-bottom: 3.19em;
+	margin-bottom: 3.69em;
 	gap: 0.63em;
 }
 .filter__btn {
@@ -159,10 +165,10 @@ li:hover {
 	height: 2.31em;
 	min-width: 6.25em;
 }
-.filter__btn--apartment {
+.filter__btn--appartements {
 	width: 9.81em;
 }
-.filter__btn--hotels {
+.filter__btn--hotelsrestaurants {
 	width: 12.37em;
 }
 .filter__btn:hover {

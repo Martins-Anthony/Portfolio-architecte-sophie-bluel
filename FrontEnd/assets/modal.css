@@ -1,0 +1,38 @@
+#editBar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+	color: #FFF;
+	background-color: #000;
+    height: 3.69em;
+    font-size: 1em;
+}
+
+#login {
+    cursor: pointer;
+}
+
+#portfolio h2 {
+    margin-top: 2.98em;
+    margin-bottom: 1.70em;
+}
+
+#editIconeBtn {
+    color: #000;
+}
+
+.editIcone {
+    color: #FFF;
+    font-size: 1em;
+    margin-right: 0.69em;
+}
+
+.modifyBtn {
+    margin-top: 2.98em;
+    margin-left: 1.94em;
+}
+
+.modifyBtn:hover {
+    color: #B1663C;
+    cursor: pointer;
+}
