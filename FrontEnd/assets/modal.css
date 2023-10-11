@@ -1,3 +1,5 @@
+* { box-sizing: border-box;}
+
 #editBar {
     display: flex;
     align-items: center;
@@ -17,8 +19,35 @@
     margin-bottom: 1.70em;
 }
 
+#titleModal {
+    color: #000;
+    font-family: 'Work Sans';
+    font-size: 1.62em;
+    font-weight: 400;
+    text-align: center;
+    margin-top: 1.52em;
+    margin-bottom: 1.62em;
+}
+
+#modalLine {
+    width: 26.25em;
+    border: solid 0.06em #B3B3B3;
+    margin: 0 6.56em;
+}
+
 #editIconeBtn {
     color: #000;
+}
+
+#modal1 form {
+    display: flex;
+    flex-direction: column;
+}
+
+#modal1 form #send {
+    height: 2.75em;
+    margin-top: 2.9em;
+    margin-bottom: 3.5em;
 }
 
 .editIcone {
@@ -28,11 +57,115 @@
 }
 
 .modifyBtn {
-    margin-top: 2.98em;
+    margin-top: 2.9em;
     margin-left: 1.94em;
+    font-family: 'Work Sans';
 }
-
 .modifyBtn:hover {
     color: #B1663C;
+}
+
+.modal {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.30);
+    animation: fadeIn .3s both;
+}
+
+.modal-wrapper {
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.63em;
+    background-color: #FFF;
+    width: 39.38em;  
+    max-width: calc(100vw - 1.25em);
+    max-height: calc(100vh - 1.25em);
+    animation: slideFromTop .5s both;
+}
+
+.modal[aria-hidden="true"] {
+    animation-name: fadeOut;
+}
+
+.modal[aria-hidden="true"] .modal-wrapper {
+    animation-name: slideToBottom;
+}
+
+button.js-modal-close {
+    background-color: #FFF;
+    box-sizing: border-box;
+    border: none;
+    width: 0.95em;
+    height: 0.95em;
+    margin-top: 2em;
+    margin-right: 2.25em;
+    align-self: flex-end;
     cursor: pointer;
+}
+
+.cross {
+    font-size: 0.95em;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0;}
+    to { opacity: 1;}
+}
+
+@keyframes fadeOut {
+    from { opacity: 1;}
+    to { opacity: 0;}
+}
+
+@keyframes slideFromTop {
+    from { transform: translateY(-50px);}
+    to { transform: translateY(0px);}
+}
+
+@keyframes slideToBottom {
+    from { transform: translateY(0px);}
+    to { transform: translateY(50px);}
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 6.56em;
+    row-gap: 1.60em;
+    column-gap: 0.39em;
+    margin-bottom: 4.19em;
+}
+
+.container figure {
+    display: flex;
+    flex-direction: column;
+}
+
+.container img {
+    width: 4.87em;
+    height: 6.5em;
+}
+
+#containerTrashIcon {
+    position: absolute;
+    align-self: flex-end;
+    background-color: #000;
+    height: 1.2em;
+    width: 1.2em;
+    border-radius: 0.12em;
+    box-sizing: border-box;
+    text-align: center;
+    margin-top: 0.38em;
+    margin-right: 0.38em;
+}
+
+.trashIcon {
+    font-size: 0.69em;
+    color: #FFF;
 }

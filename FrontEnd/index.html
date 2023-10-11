@@ -11,9 +11,20 @@
 	<link rel="stylesheet" href="./assets/style.css">
 	<link rel="stylesheet" href="./assets/modal.css">
 	<script src="https://kit.fontawesome.com/62e12ecace.js" crossorigin="anonymous"></script>
-	<script async src="./assets/api/main.js"></script>
+	
 </head>
 <body id="edit">
+	<aside  id="modal1" class="modal" aria-hidden="true" role="dialog" style="display: none;" aria-labelledby="titleModal">
+		<div class="modal-wrapper js-modal-stop">
+			<button class="js-modal-close" aria-label="Fermer la boite modale"><i class="fa-solid fa-xmark cross"></i></button>
+			<h1 id="titleModal">Galerie photo</h1>
+			<form action="#" method="post">
+				<div class="container"></div>
+				<span id="modalLine"></span>
+				<input type="submit" value="Ajouter une photo" id="send">
+			</form>
+		</div>
+	</aside>
 <header>
 	<h1><a href="./index.html">Sophie Bluel</a><span>Architecte d'inteérieur</span></h1>
 	<nav>
@@ -109,6 +120,6 @@
 		</ul>
 	</nav>
 </footer>
-
+<script src="./assets/api/main.js"></script>
 </body>
 </html>
