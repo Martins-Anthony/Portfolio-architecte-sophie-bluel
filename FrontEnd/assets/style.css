@@ -138,6 +138,19 @@ li:hover {
 	margin-bottom: 1em;
 }
 
+#errorServer {
+	display: flex;
+	flex-direction: column;
+	width: 50em;
+	margin-top: 30vh;
+	margin-left: 10vw;
+}
+
+#spaceBetween {
+	display: flex;
+	justify-content: space-between;
+}
+
 .navActive {
 	font-weight: 700;
 }
@@ -164,13 +177,9 @@ li:hover {
 	line-height: normal;
 	height: 2.31em;
 	min-width: 6.25em;
+	padding: 0 0.94em;
 }
-.filter__btn--appartements {
-	width: 9.81em;
-}
-.filter__btn--hotelsrestaurants {
-	width: 12.37em;
-}
+
 .filter__btn:hover {
 	cursor: pointer;
 }

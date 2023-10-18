@@ -19,22 +19,6 @@
     margin-bottom: 1.70em;
 }
 
-#titleModal {
-    color: #000;
-    font-family: 'Work Sans';
-    font-size: 1.62em;
-    font-weight: 400;
-    text-align: center;
-    margin-top: 1.52em;
-    margin-bottom: 1.62em;
-}
-
-#modalLine {
-    width: 26.25em;
-    border: solid 0.06em #B3B3B3;
-    margin: 0 6.56em;
-}
-
 #editIconeBtn {
     color: #000;
 }
@@ -44,7 +28,7 @@
     flex-direction: column;
 }
 
-#modal1 form #send {
+#modal1 #modalSendBtn {
     height: 2.75em;
     margin-top: 2.9em;
     margin-bottom: 3.5em;
@@ -97,15 +81,21 @@
     animation-name: slideToBottom;
 }
 
-button.js-modal-close {
+#modalNav {
+    display: flex;
+    justify-content: space-between;
+}
+
+#modalClose {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modalNavBtn {
     background-color: #FFF;
     box-sizing: border-box;
     border: none;
-    width: 0.95em;
-    height: 0.95em;
-    margin-top: 2em;
-    margin-right: 2.25em;
-    align-self: flex-end;
+    margin: 2em 2.25em 0 2.25em;
     cursor: pointer;
 }
 
@@ -133,21 +123,93 @@ button.js-modal-close {
     to { transform: translateY(50px);}
 }
 
-.container {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0 6.56em;
-    row-gap: 1.60em;
-    column-gap: 0.39em;
-    margin-bottom: 4.19em;
+.titleModal {
+    color: #000;
+    font-family: 'Work Sans';
+    font-size: 1.62em;
+    font-weight: 400;
+    text-align: center;
+    margin-top: 1.52em;
+    margin-bottom: 1.62em;
 }
 
-.container figure {
+.separationLine {
+    width: 26.25em;
+    border: solid 0.06em #B3B3B3;
+    margin-top: 4.19em;
+}
+
+.modalContainerItems {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 1.60em;
+    column-gap: 0.39em;
+}
+
+#modalContainerItemsAddPicture {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 10.56em;
+    row-gap: 0.44em;
+}
+
+#modalContainerItemsAddPicture i {
+    color: #B9C5CC;
+    font-size: 4.75em;
+    margin-top: 0.20em;
+}
+
+#modalContainerItemsAddPicture p {
+    font-size: 0.62em;
+}
+
+#modalAddPictureBtn {
+    background-color:  #CBD6DC;
+    color: #306685;
+    border-radius: 50px;
+    width: 10.81em;
+    height: 2.25em;
+    text-align: center;
+    font-size: 0.87em;
+    font-weight: 500;
+    font-family: 'Work Sans';
+    padding-top: 0.62em;
+}
+
+#formAddPicture {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #E8F1F6;
+    border-radius: 3px;
+}
+
+#formAddTitleCategory {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 1.87em;
+}
+
+#modalAddTitlePicture {
+    margin-bottom: 1.87em;
+    padding-left: 1em;
+}
+
+.sectionPageModal {
+    padding: 0 6.56em;
+    margin: 0;
+    overflow: hidden;
+}
+ 
+.modalContainerItems figure {
     display: flex;
     flex-direction: column;
 }
 
-.container img {
+.modalContainerItems img {
     width: 4.87em;
     height: 6.5em;
 }
@@ -168,4 +230,50 @@ button.js-modal-close {
 .trashIcon {
     font-size: 0.69em;
     color: #FFF;
+}
+
+.modalInputStyle {
+    width: 100%;
+    height: 3.19em;
+    margin-top: 0.62em;
+    box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+    border: none;
+    color: #444;
+    font-family: 'Work Sans';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+#selectStyle {
+    display: flex;
+    flex-direction: column;
+}
+
+#modalFormAddCategoryPicture {
+    position: relative;
+    appearance: none;
+    border: 0;
+    height: 100%;
+    width: 100%;
+    color: #444;
+    font-family: 'Work Sans';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    padding-left: 1em;
+}
+
+.chevronSelect {
+    margin-top: 2em;
+    margin-right: 2.95em;
+    color: #6C6C6C;
+    font-size: 0.69em;
+    position: absolute;
+    align-self: flex-end;
+    pointer-events: none;
+}
+
+input[type="file"] {
+    display: none;
 }

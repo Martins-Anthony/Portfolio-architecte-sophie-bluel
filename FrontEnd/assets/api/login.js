@@ -49,12 +49,35 @@ idSend.addEventListener("change", () => {
         }    
     }
 })
+console.log(window.localStorage.identifier)
+const url = "http://localhost:5678/api/users/login"
+/*
+const id = {
+    email: "sophie.bluel@test.tld",
+    password: "S0phie"
+ } 
+ console.log(id)
 
-async function fetchLogin(payload) {
-    const response = await fetch("http://localhost:5678/api/users/login", {
+const options = {
+    method: "POST",
+    headers: { "content-Type": "application/json"},
+    body: JSON.stringify(id)
+}
+
+fetch(url, options)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('La requête a échoué.')
+        }
+        return console.log(response.json())
+    })
+
+*/
+async function fetchLogin(payloads) {
+    const response = await fetch(url, {
         method: "POST",
         headers: { "content-Type": "application/json"},
-        body: payload
+        body: payloads
     })
     if (response.ok) {
         return response.json()
@@ -69,18 +92,20 @@ async function fetchLogin(payload) {
 idSend.addEventListener("submit", async (event) => {
     event.preventDefault()
     if (userInfoTable[0].regExpCheck && userInfoTable[1].regExpCheck) {
-            
+           
         const id = {
            email: userInfoTable[0].tag.value,
            password: userInfoTable[1].tag.value
         }           
         const payload = JSON.stringify(id)
- 
-        fetchLogin(payload).then(data => {
-            window.localStorage.setItem("identify", JSON.stringify(data))
-            identifier = JSON.parse(identifier)
-            window.location.href = "./index.html"  
-        })
+
+        fetchLogin(payload)
+            .then(data => {
+                window.localStorage.setItem("identify", JSON.stringify(data))
+                //identifier = JSON.parse(identifier)
+                window.location.href = "./index.html"  
+            })
+        
     }   
 })
 
