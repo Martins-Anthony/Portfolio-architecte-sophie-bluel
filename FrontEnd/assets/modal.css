@@ -28,10 +28,11 @@
     flex-direction: column;
 }
 
-#modal1 #modalSendBtn {
+.formBtn {
     height: 2.75em;
     margin-top: 2.9em;
     margin-bottom: 3.5em;
+    border: none;
 }
 
 .editIcone {
@@ -165,7 +166,7 @@
     font-size: 0.62em;
 }
 
-#modalAddPictureBtn {
+#AddPictureBtn {
     background-color:  #CBD6DC;
     color: #306685;
     border-radius: 50px;
@@ -275,5 +276,9 @@
 }
 
 input[type="file"] {
-    display: none;
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    width: 27.45em;
+    height: 11.1em;
 }

@@ -42,51 +42,40 @@ idSend.addEventListener("change", () => {
                     const tagSelectRemove = document.getElementById(`${userInfoTable[i].name}-error`).remove()             
                     userInfoTable[i].displayCheck = false
                     tagSelectRemove
-                    
                 }   
                 userInfoTable[i].regExpCheck = true 
             }
         }    
     }
 })
-console.log(window.localStorage.identifier)
+
 const url = "http://localhost:5678/api/users/login"
-/*
-const id = {
-    email: "sophie.bluel@test.tld",
-    password: "S0phie"
- } 
- console.log(id)
 
-const options = {
-    method: "POST",
-    headers: { "content-Type": "application/json"},
-    body: JSON.stringify(id)
-}
-
-fetch(url, options)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('La requête a échoué.')
-        }
-        return console.log(response.json())
-    })
-
-*/
 async function fetchLogin(payloads) {
-    const response = await fetch(url, {
-        method: "POST",
-        headers: { "content-Type": "application/json"},
-        body: payloads
-    })
-    if (response.ok) {
-        return response.json()
-    } else {
-        const displayError = document.getElementById("passwords")
-        displayError.insertAdjacentHTML("afterend",`<p class="error" id="emailPassword">E-mail ou Mot de passe incorrect</p>`)
-        connectionError = true
-        throw new Error('La requête a échoué')
-    }
+    
+        await fetch(url, {
+            method: "POST",
+            headers: { "content-Type": "application/json"},
+            body: payloads
+        })
+        .then(response => {
+            if (response.ok) { 
+                return response.json()
+            } else {
+                throw new Error("Erreur de requête")
+            }
+        })
+        .then(data => {
+            window.localStorage.setItem("identify", JSON.stringify(data))
+            window.location.href = "./index.html"
+        })
+        .catch(() => {
+            if (!connectionError) {
+                const displayError = document.getElementById("passwords")
+                displayError.insertAdjacentHTML("afterend",`<p class="error" id="emailPassword">E-mail ou Mot de passe incorrect</p>`)
+            }
+            connectionError = true
+        })
 }
 
 idSend.addEventListener("submit", async (event) => {
@@ -100,12 +89,5 @@ idSend.addEventListener("submit", async (event) => {
         const payload = JSON.stringify(id)
 
         fetchLogin(payload)
-            .then(data => {
-                window.localStorage.setItem("identify", JSON.stringify(data))
-                //identifier = JSON.parse(identifier)
-                window.location.href = "./index.html"  
-            })
-        
     }   
 })
-

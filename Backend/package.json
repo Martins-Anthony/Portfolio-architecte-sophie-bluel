@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "http-server",
+    "lint": "eslint *.js"
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +23,7 @@
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
+    "eslint": "^8.51.0",
     "nodemon": "^2.0.15"
   }
 }

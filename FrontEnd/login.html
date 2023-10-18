@@ -31,7 +31,7 @@
 			<label for="e-mail">E-mail</label>
 			<input type="email" name="email" id="e-mail" required>
 			<label for="passwords">Mot de passe</label>
-			<input type="password" name="password" id="passwords" required>
+			<input type="password" name="password" id="passwords" required pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{5,}$" title="Le mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et doit faire au moins 6 caractères.">
 			<input type="submit" value="Envoyer" id="send">
 		</form>
 		<p id="forget"><a href="#">Mot de passe oublié</a></p>

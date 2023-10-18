@@ -1,24 +1,14 @@
 let modal = null
 let addPicture = false
-/*
-function reloadPageError() {
-    const reloadPage = document.getElementById("reloadPage")
-    reloadPage.addEventListener("click", () => {
-        console.log('test click 1')
-        window.location.href = "./index.html"
-        fetchData(urlServers.works)
-        console.log('test click 2')
-    })
-}
-*/
-const urlServers = {
-    category : "http://localhost:5678/api/categories",
-    works : "http://localhost:5678/api/works",
-}
 
 let token
 if (window.localStorage.identify !== undefined) {
     token = JSON.parse(window.localStorage.identify).token
+}
+
+const urlServers = {
+    category : "http://localhost:5678/api/categories",
+    works : "http://localhost:5678/api/works",
 }
 
 const optionsDelete = {
@@ -26,59 +16,22 @@ const optionsDelete = {
     headers: {"Authorization": `Bearer ${token}`}
 }
 
-function customFetch(url, type, data) {
-    
-    let header
-    let corp
-    if (type === "GET") {
-        header = {"Content-type": "application/json"} 
-    } else if (type === "POST") {
-        header = {
-            "Content-type": "multipart/form-data",
-            "Authorization": `Bearer ${JSON.parse(window.localStorage.identify).token}`}
-        corp = {body: JSON.stringify({data})}
-    }
-    else if (type === "DELETE") {
-        header = {"Authorization": `Bearer ${JSON.parse(window.localStorage.identify).token}`}
-    }
-    
-    return fetch(url, {
-        method: type,
-        headers: header,
-        corp    
-    })
-    .then((response) => {
-        if (type === "DELETE") { return }
-        else if (response.ok) { return response.json() }
-    })       
-    .then((data) => {
-        if (type === "DELETE") { return }
-        console.log(data, 'test data')})
-    .catch((error) => console.log(error))
-     
-}
-
-//customFetch(urlServers.works, "POST")
-
-async function fetchData(url) {
+async function fetchData(url, option) {
     try {
-        let response = await fetch(url)
+        let response = await fetch(url, option)
         if (response.ok) {
             return response.json()
         }        
     } catch (error) {
-        console.log('test error')
-        const deletePage = document.getElementById("edit")
-        deletePage.innerHTML = `<div id="errorServer"><h1>Cette page ne fonctionne pas</h1><p>Si le problème persiste. Contacter le propriétaire du site.</p><br><div id="spaceBetween">${error}<button id="reloadPage">Réactualiser la page</button></div></div>`       
-        reloadPageError()
         throw new Error('Impossible de contacter le serveur')
     }
 }
 
-/////////////////////////// Call category works /////////////////////////////////
+/////////////////////////// GET category works /////////////////////////////////
 
 let categoryWorks = window.localStorage.getItem("categoryWorks")
 let categoryNameWorks
+
 if (categoryWorks === null) {
     fetchData(urlServers.category).then(data => { 
         window.localStorage.setItem("categoryWorks", JSON.stringify(data))
@@ -90,18 +43,17 @@ if (categoryWorks === null) {
     }
 }
 
-///////////////////////// Call data works //////////////////////////////////////
+///////////////////////// GET data works //////////////////////////////////////
 
 let dataWorks = window.localStorage.getItem("dataWork")
 
-if(dataWorks === null) {
-    fetchData(urlServers.works).then(data => {
-        window.localStorage.setItem("dataWork", JSON.stringify(data))   
-    })
-} else {
+fetchData(urlServers.works).then(data => {
+    window.localStorage.setItem("dataWork", JSON.stringify(data))
+})
+if (dataWorks !== undefined) {
     dataWorks = JSON.parse(dataWorks)
 }
-
+console.log(dataWorks)
 //////////////////////// display works //////////////////////////////////
 
 function posterWorks(data, tag) {
@@ -124,22 +76,12 @@ function posterWorks(data, tag) {
         if (modal === null) {
             containerFigure.innerHTML =`<img src=${arrayItems[i].imageUrl} alt="${arrayItems[i].title}"><figcaption>${arrayItems[i].title}</figcaption>`
         } else if (modal !== null) {
-            modalPicturesGallery(containerFigure, arrayItems, i)
+            containerFigure.innerHTML = `<img class="js-modal-img" data-idPicture="${arrayItems[i].id}" src=${arrayItems[i].imageUrl} alt="${arrayItems[i].title}"><div id="containerTrashIcon"><i class="fa-solid fa-trash-can trashIcon"></i></div>`
         }
     }
 }
-console.log(dataWorks, 'check data')
+
 posterWorks("Tous", ".gallery")
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-function modalPicturesGallery(container, array, index) {
-    container.innerHTML = `<img class="js-modal-img" data-idPicture="${array[index].id}" src=${array[index].imageUrl} alt="${array[index].title}"><div id="containerTrashIcon"><i class="fa-solid fa-trash-can trashIcon"></i></div>`
-}
-
-
-
-
-
 
 //////////////////////////// Create button category name works ///////////////////////////////////////////////////////////
 
@@ -179,7 +121,7 @@ btnCategoryNameWorks.forEach(btnCategoryNameWork => {
     })
 })
 
-///////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////// 
 
 function loginBtn() {
     const loginBtn = document.getElementById('login')
@@ -187,8 +129,7 @@ function loginBtn() {
 
     loginBtn.addEventListener("click", () => {
         window.localStorage.removeItem("identify")
-        window.localStorage.removeItem("dataWork")
-        window.location.href = "./index.html"
+        window.location.reload()
     })
 }
 
@@ -229,6 +170,7 @@ function openModal(e) {
     if (addPicture === false) {
         posterWorks(dataWorks, ".displayOrHideFirstPageModal")
     }
+    deletePictureModal()
 }
 
 function closeModal(e) {
@@ -244,11 +186,7 @@ function closeModal(e) {
         modal = null
     }
     modal.addEventListener("animationend", hideModal)
-    addPicture = false
-    modalReturn.style.display = "none"
-    firstPageModal.style.display = null
-    secondPageModal.style.display = "none"
-    modalContainerItems.removeAttribute("id","modalContainerItemsAddPicture")
+    cleanPageFormModal()
 }
 
 function stopPropagation(e) {
@@ -261,22 +199,19 @@ document.querySelectorAll(".js-modal").forEach(a => {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 const modalReturn = document.getElementById("modalReturn")
-const modalSendBtn = document.getElementById("modalSendBtn")
-const modalContainerItems = document.querySelector(".modalContainerItems")
-const modalTile = document.getElementById("titleModal")
-const modalForm = document.getElementById("modalForm")
-//const tagsAddPicture = `<span><i class="fa-regular fa-image"></i></span><label for="picture" id="modalAddPictureBtn">+ Ajouter Photo</label><input id="picture" name="picture" type="file" accept="images/*" required title="+ Ajouter Photo"><img id="image-preview" src="" alt="Aperçu de l'image" style="max-width: 100%; display: none;"><p>jpg, png : 4mo max</p>`
-const tagsformAddTitleCategory = document.getElementById("formAddTitleCategory")
+const modalAddPictureBtn = document.getElementById("modalAddPictureBtn")
+const modalAddTitlePicture = document.getElementById("modalAddTitlePicture")
+const selectedFormCategory = document.getElementById("modalFormAddCategoryPicture")
 const dataCategoryNameWorks = document.querySelectorAll("[data-categoryNameWorks]")
-const SelectedFormCategory = document.getElementById("modalFormAddCategoryPicture")
-//////
 const firstPageModal = document.getElementById("firstPageModal")
 const secondPageModal = document.getElementById("secondPageModal")
 const modalContainerItemsAddPicture = document.getElementById("modalContainerItemsAddPicture")
 const modalFormAddPicture = document.getElementById("modalFormAddPicture")
-//////
+const modalSendBtn = document.getElementById("modalSendBtn")
+const modalFormPicture = document.getElementById('picture')
+const imagePreview = document.getElementById('image-preview')
 
-modalSendBtn.addEventListener("click", (event) => {
+modalAddPictureBtn.addEventListener("click", (event) => {
     event.preventDefault()
     firstPageModal.style.display = "none"
     secondPageModal.style.display = null
@@ -284,45 +219,118 @@ modalSendBtn.addEventListener("click", (event) => {
 })
 
 modalReturn.addEventListener("click", () => {
+    cleanPageFormModal()
+})
+
+function cleanPageFormModal() {
     firstPageModal.style.display = null
     secondPageModal.style.display = "none"
     modalReturn.style.display = "none"
     modalFormAddPicture.reset()
     imagePreview.style.display = "none"
     modalContainerItemsAddPicture.style.display = null
+    formSubmission()
+}
+///////////////////////////////// delete pictures modal ////////////////////////////////////////////////
+
+function deletePictureModal() {
+    const picturesModal = document.querySelectorAll("img[data-idpicture]")
+
+picturesModal.forEach(img => {
+    const idpicture = img.getAttribute("data-idpicture")
+    img.addEventListener("click", () => {
+        console.log("imgae cliquée avec data-idpicture : ", idpicture)
+        fetch(urlServers.works+"/"+idpicture, optionsDelete)
+        .then(response => {
+            if(response.ok) {
+                window.localStorage.removeItem("dataWork")
+                alert(`L\'image a été supprimée avec succès.`)
+                location.reload()
+            } else {
+                alert("Erreur lors de la suppression de l\'image.")
+            }
+        })
+        .catch(error => {
+            alert("Erreur lors de la suppression de l\'image :", error)
+        })
+    })
 })
+}
+
+////////////////////////////////////////////////
 
 const option = document.createElement("option")
 option.value 
 option.textContent 
-SelectedFormCategory.appendChild(option)
+selectedFormCategory.appendChild(option)
 
 for (let i = 1; i < dataCategoryNameWorks.length; i++) {
     const valueDataCategoryNameWorks = dataCategoryNameWorks[i].getAttribute("data-categoryNameWorks")
     const option = document.createElement("option")
     option.value = valueDataCategoryNameWorks
     option.textContent = valueDataCategoryNameWorks
-    SelectedFormCategory.appendChild(option)
+    selectedFormCategory.appendChild(option)
 }
 
-const inputPicture = document.getElementById('picture');
-const imagePreview = document.getElementById('image-preview');
-console.log(inputPicture)
-// Écoutez les changements dans le champ de fichier
-inputPicture.addEventListener('change', function() {
-  // Vérifiez si un fichier a été sélectionné
-  if (inputPicture.files.length > 0) {
-    // Obtenez l'URL de l'image sélectionnée
-    const imageUrl = URL.createObjectURL(inputPicture.files[0]);
-
-    // Affichez l'image dans l'aperçu
-    imagePreview.src = imageUrl;
+modalFormPicture.addEventListener('change', function() {
+  if (modalFormPicture.files.length > 0) {
+    const imageUrl = URL.createObjectURL(modalFormPicture.files[0])
+    imagePreview.src = imageUrl
     modalContainerItemsAddPicture.style.display = "none"
-    imagePreview.style.display = null;
+    imagePreview.style.display = null
   } else {
-    // Masquez l'aperçu si aucun fichier n'est sélectionné
-    imagePreview.src = '';
-    imagePreview.style.display = 'none';
+    imagePreview.src = ''
+    imagePreview.style.display = 'none'
   }
-});
+})
 
+///////////////////////////// listen modal form page two ///////////////////////////
+
+function formSubmission() {
+    if (modalAddTitlePicture.value && selectedFormCategory.value && modalFormPicture.value) {
+        modalSendBtn.removeAttribute("disabled")
+        modalSendBtn.style.backgroundColor = "#1D6154"
+        console.log(modalFormPicture.files[0])
+    } else {
+        modalSendBtn.style.backgroundColor = "#A7A7A7"
+    }
+}
+
+modalAddTitlePicture.addEventListener("input", formSubmission)
+selectedFormCategory.addEventListener("input", formSubmission)
+modalFormPicture.addEventListener("input", formSubmission)
+
+formSubmission()
+
+/////////////////////////////////////////////////////////////////////////////
+
+modalFormAddPicture.addEventListener("submit", (event) => {
+    event.preventDefault()
+
+    const image = modalFormPicture.files[0]
+    const title = modalAddTitlePicture.value
+    const category = selectedFormCategory.value
+
+    const formData = new FormData()
+    formData.append("title", title)
+    formData.append("category", category)
+    formData.append("image", image)
+
+    fetch("http://localhost:5678/api/works", {
+        method: "POST",
+        headers: {"Authorization": `Bearer ${token}`},
+        body:  formData
+    })
+    .then(response => {
+        if(response.ok) {
+            window.localStorage.removeItem("dataWork")
+            alert(`L\'image a été ajouter avec succès.`)
+            location.reload()
+        } else {
+            alert("Erreur lors de l'ajout de l\'image.")
+        }
+    })
+    .catch(error => {
+        alert("Erreur lors de l'ajout de l\'image :", error)
+    })
+})
