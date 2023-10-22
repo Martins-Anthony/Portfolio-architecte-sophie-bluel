@@ -145,6 +145,8 @@
     flex-wrap: wrap;
     row-gap: 1.60em;
     column-gap: 0.39em;
+    max-height: 25em;
+    overflow-y: auto;
 }
 
 #modalContainerItemsAddPicture {
@@ -215,7 +217,7 @@
     height: 6.5em;
 }
 
-#containerTrashIcon {
+.containerTrashIcon {
     position: absolute;
     align-self: flex-end;
     background-color: #000;
@@ -228,9 +230,16 @@
     margin-right: 0.38em;
 }
 
+figure:has(.containerTrashIcon) {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
 .trashIcon {
     font-size: 0.69em;
     color: #FFF;
+    
 }
 
 .modalInputStyle {
