@@ -1,13 +1,15 @@
-
 function formSubmission() {
     if (modalAddTitlePicture.value && selectedFormCategory.value && modalFormPicture.value) {
         modalSendBtn.removeAttribute("disabled")
         modalSendBtn.style.backgroundColor = "#1D6154"
+        cursorSendBtn.style.cursor = "pointer"
     } else {
         modalSendBtn.style.backgroundColor = "#A7A7A7"
+        cursorSendBtn.style.cursor = "auto"    
     }
 }
 
+const cursorSendBtn = document.getElementById("modalSendBtn")
 modalAddTitlePicture.addEventListener("input", formSubmission)
 selectedFormCategory.addEventListener("input", formSubmission)
 modalFormPicture.addEventListener("input", formSubmission)
@@ -44,6 +46,7 @@ async function postData(url, bodyData) {
 
         if (reponse.ok) {
             const data = await reponse.json()
+            alert(`L\'image a été ajouté avec succès`)
             return data
         } else {
             throw new Error('Erreur lors de la requête POST') 
@@ -52,3 +55,4 @@ async function postData(url, bodyData) {
         alert("Une erreur s'est produite. Veuillez réessayer.")
     }
 }
+

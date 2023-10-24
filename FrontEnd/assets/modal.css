@@ -1,6 +1,6 @@
 * { box-sizing: border-box;}
 
-#editBar {
+#edit-mode-bar {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -35,18 +35,18 @@
     border: none;
 }
 
-.editIcone {
+.editIcon {
     color: #FFF;
     font-size: 1em;
     margin-right: 0.69em;
 }
 
-.modifyBtn {
+.modify-btn {
     margin-top: 2.9em;
     margin-left: 1.94em;
     font-family: 'Work Sans';
 }
-.modifyBtn:hover {
+.modify-btn:hover {
     color: #B1663C;
 }
 
@@ -217,6 +217,11 @@
     height: 6.5em;
 }
 
+.modalContainerItems figure,
+#modalAddPictureBtn {
+    cursor: pointer;
+}
+
 .containerTrashIcon {
     position: absolute;
     align-self: flex-end;
@@ -230,7 +235,7 @@
     margin-right: 0.38em;
 }
 
-figure:has(.containerTrashIcon) {
+figure.containerTrashIcon {
     display: flex;
     flex-direction: column;
     position: relative;
@@ -239,7 +244,6 @@ figure:has(.containerTrashIcon) {
 .trashIcon {
     font-size: 0.69em;
     color: #FFF;
-    
 }
 
 .modalInputStyle {

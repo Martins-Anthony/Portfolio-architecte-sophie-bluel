@@ -40,14 +40,12 @@ document.querySelectorAll(".js-modal").forEach(a => {
 
 const modalReturn = document.getElementById("modalReturn")
 const modalAddPictureBtn = document.getElementById("modalAddPictureBtn")
-const modalAddTitlePicture = document.getElementById("modalAddTitlePicture")
 const selectedFormCategory = document.getElementById("modalFormAddCategoryPicture")
 const dataCategoryNameWorks = document.querySelectorAll("[data-categoryNameWorks]")
 const firstPageModal = document.getElementById("firstPageModal")
 const secondPageModal = document.getElementById("secondPageModal")
 const modalContainerItemsAddPicture = document.getElementById("modalContainerItemsAddPicture")
 const modalFormAddPicture = document.getElementById("modalFormAddPicture")
-const modalSendBtn = document.getElementById("modalSendBtn")
 const modalFormPicture = document.getElementById('picture')
 const imagePreview = document.getElementById('image-preview')
 
@@ -73,9 +71,6 @@ function cleanPageFormModal() {
 }
 
 const option = document.createElement("option")
-option.value 
-option.textContent 
-selectedFormCategory.appendChild(option)
 
 for (let i = 1; i < dataCategoryNameWorks.length; i++) {
     const valueCategoryNameWorks = dataCategoryNameWorks[i].getAttribute("data-categoryNameWorks")

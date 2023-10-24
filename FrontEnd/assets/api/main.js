@@ -1,33 +1,61 @@
 let modal = null
 let addPicture = false
-
 let token
-if (window.localStorage.identify !== undefined) {
-    token = JSON.parse(window.localStorage.identify).token
+if (sessionStorage.getItem("identify") !== null) {
+    token = JSON.parse(sessionStorage.getItem("identify"))
 }
 
+/**
+ * Displays jobs in an HTML element based on a filter.
+ * 
+ * @param {number} filterValue 
+ * @param {string} tag 
+ */
 function displayWorks(filterValue, tag) {
-    
-    let arrayItems = [] 
+
+    let arrayItems = []
+
     const classGallery = document.querySelector(tag)
     classGallery.innerHTML = ""
-    arrayItems = dataWorks.filter(item => { 
+
+    arrayItems = dataWorks.filter(item => {
         return filterValue === 0 || item.categoryId === filterValue
     })
-    
+
     if (modal !== null) {
         arrayItems = dataWorks
     }
 
     for (let i = 0; i < arrayItems.length; i++) {
-        let containerFigure = document.createElement("figure")
-        classGallery.appendChild(containerFigure)      
-        if (addPicture === false) {
-            containerFigure.innerHTML =`<img src=${arrayItems[i].imageUrl} alt="${arrayItems[i].title}"><figcaption>${arrayItems[i].title}</figcaption>`
-        } else if (addPicture === true) {
-            containerFigure.innerHTML = `<img class="js-modal-img" data-idPicture="${arrayItems[i].id}" src=${arrayItems[i].imageUrl} alt="${arrayItems[i].title}"><span class="containerTrashIcon"><i class="fa-solid fa-trash-can trashIcon"></i></span>`
+        const pictureElement = document.createElement("img")
+        pictureElement.src = arrayItems[i].imageUrl
+        pictureElement.alt = arrayItems[i].title
+
+        const containerFigure = document.createElement("figure")
+        containerFigure.appendChild(pictureElement)
+
+        if (addPicture === true) {
+            pictureElement.classList.add("js-modal-img")
+            pictureElement.setAttribute("data-idPicture", arrayItems[i].id)
+
+            const trashIconContainer = document.createElement("span")
+            trashIconContainer.classList.add("containerTrashIcon")
+
+            const trashIcon = document.createElement("i")
+            trashIcon.classList.add("fa-solid", "fa-trash-can", "trashIcon")
+
+            trashIconContainer.appendChild(trashIcon)
+            containerFigure.appendChild(trashIconContainer)
         }
-    }  
+
+        if (addPicture === false) {
+            const figcaption = document.createElement("figcaption")
+            figcaption.textContent = arrayItems[i].title
+            containerFigure.appendChild(figcaption)
+        }
+
+        classGallery.appendChild(containerFigure)
+    }
 }
 
 displayWorks(0, ".gallery")
@@ -38,7 +66,7 @@ displayWorks(0, ".gallery")
  * @param {Array} nameWorks 
  */
 function createBtnCategoryNameWorks(nameWorks) {
-    const tagProjetsFilter = document.getElementById("projets")
+    const tagProjetsFilter = document.querySelector(".modify-btn")
 
     const filterElement = document.createElement("div")
     filterElement.className = "filter"
@@ -70,8 +98,6 @@ function createCategoryButton(categoryId, categoryName, clickActive) {
 
 createBtnCategoryNameWorks(categoryNameWorks)
 
-/////////////////////// Selected button category + add clic and style css ///////////////////////////////////////
-
 const btnCategoryAllWorks = document.querySelector(".filter__btn[data-clickactive='true'")
 btnCategoryAllWorks.style.backgroundColor = "#1D6154"
 btnCategoryAllWorks.style.color = "#FFF"
@@ -91,47 +117,3 @@ btnCategoryNameWorks.forEach(btnCategoryNameWork => {
         displayWorks(Number(btnCategoryNameWork.dataset.categoryidworks), ".gallery")
     })
 })
- 
-function loginBtn() {
-    const loginBtn = document.getElementById('login')
-    loginBtn.innerHTML = "Logout"
-
-    loginBtn.addEventListener("click", () => {        
-        refreshesLocalStorageWorks()
-        setTimeout(function() {
-            window.location.reload()
-        }, 100)
-    })
-}
-
-function refreshesLocalStorageWorks() {
-    getDataWorks()
-    getCategoryWorks()
-    window.localStorage.removeItem("identify")
-    window.localStorage.removeItem("dataWork")
-    window.localStorage.removeItem("categoryWorks")
-}
-
-function displayFilterRemove() {
-    const tagFilterBtn = document.querySelector(".filter")
-    tagFilterBtn.style.display = "none"
-}
-
-function modifyBtn() {
-    const tagFilter = document.getElementById("projets")
-    const cssIdPortfolio = document.getElementById("portfolio")
-    cssIdPortfolio.setAttribute("style", "flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center;")
-    tagFilter.insertAdjacentHTML("afterend",`<div class="modifyBtn"><i class="fa-regular fa-pen-to-square editIcone" id="editIconeBtn"></i><a href="#modal1" class="js-modal">modifier</a></div>`) 
-}
-
-function editMode() {
-    let editBar = document.getElementById('edit')
-    if (token !== undefined) {
-        editBar.insertAdjacentHTML("afterbegin" , `<div id="editBar"><i class="fa-regular fa-pen-to-square editIcone"></i><p>Mode édition</p></div>`)
-        loginBtn()
-        displayFilterRemove()
-        modifyBtn()
-    }
-}
-
-editMode()
