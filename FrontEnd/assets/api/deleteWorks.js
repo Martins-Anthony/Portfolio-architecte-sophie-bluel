@@ -2,7 +2,7 @@ let pictureDeletedOk = false
 let idpicture
 
 function deletePictureModal() {
-    const picturesModal = document.querySelectorAll("img[data-idpicture]")
+    const picturesModal = document.querySelectorAll("span[data-idpicture]")
     const optionsDelete = {
         method: 'DELETE',
         headers: {"Authorization": `Bearer ${token}`}

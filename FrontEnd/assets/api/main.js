@@ -36,10 +36,10 @@ function displayWorks(filterValue, tag) {
 
         if (addPicture === true) {
             pictureElement.classList.add("js-modal-img")
-            pictureElement.setAttribute("data-idPicture", arrayItems[i].id)
 
             const trashIconContainer = document.createElement("span")
             trashIconContainer.classList.add("containerTrashIcon")
+            trashIconContainer.setAttribute("data-idPicture", arrayItems[i].id)
 
             const trashIcon = document.createElement("i")
             trashIcon.classList.add("fa-solid", "fa-trash-can", "trashIcon")

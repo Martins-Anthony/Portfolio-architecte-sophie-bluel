@@ -217,7 +217,7 @@
     height: 6.5em;
 }
 
-.modalContainerItems figure,
+figure span,
 #modalAddPictureBtn {
     cursor: pointer;
 }
