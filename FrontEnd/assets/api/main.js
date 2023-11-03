@@ -1,5 +1,5 @@
 let modal = null
-let addPicture = false
+let picturesInModal = false
 let token
 if (sessionStorage.getItem("identify") !== null) {
     token = JSON.parse(sessionStorage.getItem("identify"))
@@ -34,21 +34,11 @@ function displayWorks(filterValue, tag) {
         const containerFigure = document.createElement("figure")
         containerFigure.appendChild(pictureElement)
 
-        if (addPicture === true) {
-            pictureElement.classList.add("js-modal-img")
-
-            const trashIconContainer = document.createElement("span")
-            trashIconContainer.classList.add("containerTrashIcon")
-            trashIconContainer.setAttribute("data-idPicture", arrayItems[i].id)
-
-            const trashIcon = document.createElement("i")
-            trashIcon.classList.add("fa-solid", "fa-trash-can", "trashIcon")
-
-            trashIconContainer.appendChild(trashIcon)
-            containerFigure.appendChild(trashIconContainer)
+        if (picturesInModal === true) {
+            displayPicturesInModal(arrayItems, i, pictureElement, containerFigure)
         }
 
-        if (addPicture === false) {
+        if (picturesInModal === false) {
             const figcaption = document.createElement("figcaption")
             figcaption.textContent = arrayItems[i].title
             containerFigure.appendChild(figcaption)
@@ -56,6 +46,20 @@ function displayWorks(filterValue, tag) {
 
         classGallery.appendChild(containerFigure)
     }
+}
+
+function displayPicturesInModal(arrayItems, index, pictureElement, containerFigure) {
+    pictureElement.classList.add("js-modal-img")
+
+    const trashIconContainer = document.createElement("span")
+    trashIconContainer.classList.add("containerTrashIcon")
+    trashIconContainer.setAttribute("data-idPicture", arrayItems[index].id)
+
+    const trashIcon = document.createElement("i")
+    trashIcon.classList.add("fa-solid", "fa-trash-can", "trashIcon")
+
+    trashIconContainer.appendChild(trashIcon)
+    containerFigure.appendChild(trashIconContainer)
 }
 
 displayWorks(0, ".gallery")

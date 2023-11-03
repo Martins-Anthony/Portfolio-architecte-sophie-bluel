@@ -7,7 +7,7 @@ function openModal(e) {
     modal.addEventListener("click", closeModal)
     modal.querySelector(".js-modal-close").addEventListener("click", closeModal)
     modal.querySelector(".js-modal-stop").addEventListener("click", stopPropagation)
-    addPicture = true
+    picturesInModal = true
     displayWorks(dataWorks, ".displayOrHideFirstPageModal")
     deletePictureModal()
 }
@@ -26,7 +26,7 @@ function closeModal(e) {
     }
     modal.addEventListener("animationend", hideModal)
     cleanPageFormModal()
-    addPicture = false
+    picturesInModal = false
     displayWorks("Tous", ".gallery")
 }
 
